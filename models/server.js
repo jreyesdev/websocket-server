@@ -1,6 +1,7 @@
 const compression = require('express-compression')
 const express = require('express')
 const cors = require('cors')
+const { socketController } = require('../sockets/controller')
 
 class Server{
     constructor(){
@@ -22,13 +23,7 @@ class Server{
     routes(){}
 
     eventSockets(){
-        this.io.on('connection', socket => {
-            socket.on('disconnect',()=> {})
-            socket.on('enviar-mensaje',(pay,callback) => {
-                this.io.emit('enviar-mensaje',pay)
-                callback({ id: 123, fecha: new Date().getTime() })
-            })
-        })
+        this.io.on('connection', socketController)
     }
 
     listen(){
