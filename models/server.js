@@ -10,6 +10,7 @@ class Server{
         this.io = require('socket.io')(this.server)
         this.middlewares()
         this.routes()
+        this.eventSockets()
     }
 
     middlewares(){
@@ -19,6 +20,16 @@ class Server{
     }
 
     routes(){}
+
+    eventSockets(){
+        this.io.on('connection', socket => {
+            socket.on('disconnect',()=> {})
+            socket.on('enviar-mensaje',(pay,callback) => {
+                this.io.emit('enviar-mensaje',pay)
+                callback({ id: 123, fecha: new Date().getTime() })
+            })
+        })
+    }
 
     listen(){
         this.server.listen(this.port,() => console.log(`Server on port ${this.port}`))
