@@ -15,7 +15,7 @@ if(!escritorio || isNaN(escritorio[1]) ){
     throw new Error('El escritorio es obligatorio y debe ser numerico')
 }
 
-lblEscritorio.innerText = `${escritorio.join(' ').toUpperCase()}`
+lblEscritorio.innerText = `E${escritorio.join(' ').slice(1)}`
 const socket = io();
 
 

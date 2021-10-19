@@ -3,8 +3,8 @@ const ticket = new ticketControl()
 
 const socketController = socket => {
     socket.emit('ultimo-ticket',ticket.ultimo)
-
-    socket.emit('pendi-ticket',ticket.tickets.length)
+    socket.emit('ultimos4-ticket',ticket.ultimos4)
+    socket.broadcast.emit('pendi-ticket',ticket.tickets.length)
     
     socket.on('sig-ticket',(pay,callback) => {
         const siguiente = ticket.siguiente()
@@ -22,6 +22,7 @@ const socketController = socket => {
             const atender = ticket.atenderTicket(escritorio.join(' '))
 
             // Notificar actualizar ultimos 4
+            socket.broadcast.emit('ultimos4-ticket',ticket.ultimos4)
 
             if(!atender){
                 resp.status = false
