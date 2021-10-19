@@ -2,9 +2,12 @@ const ticketControl = require('../models/ticketControl')
 const ticket = new ticketControl()
 
 const socketController = socket => {
-    socket.on('enviar-mensaje',(pay,callback) => {
-        socket.broadcast.emit('enviar-mensaje',pay)
-        callback({ id: 123, fecha: new Date().getTime() })
+    socket.emit('ultimo-ticket',ticket.ultimo)
+    
+    socket.on('sig-ticket',(pay,callback) => {
+        const siguiente = ticket.siguiente()
+        callback(siguiente)
+        // Todo: notificar que hay nuevo ticket por atender
     })
 }
 
