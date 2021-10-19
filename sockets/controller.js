@@ -4,12 +4,12 @@ const ticket = new ticketControl()
 const socketController = socket => {
     socket.emit('ultimo-ticket',ticket.ultimo)
     socket.emit('ultimos4-ticket',ticket.ultimos4)
-    socket.broadcast.emit('pendi-ticket',ticket.tickets.length)
+    socket.emit('pendi-ticket',ticket.tickets.length)
     
     socket.on('sig-ticket',(pay,callback) => {
         const siguiente = ticket.siguiente()
+        socket.broadcast.emit('pendi-ticket',ticket.tickets.length)
         callback(siguiente)
-        // Todo: notificar que hay nuevo ticket por atender
     })
     
     socket.on('atender-ticket',({ escritorio },callback) => {
@@ -32,7 +32,9 @@ const socketController = socket => {
                 resp.ticket = atender
             }
         }
+        console.log(ticket.tickets.length)
         socket.emit('pendi-ticket',ticket.tickets.length)
+        socket.broadcast.emit('pendi-ticket',ticket.tickets.length)
         callback(resp)
     })
 }

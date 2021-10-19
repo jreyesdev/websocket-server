@@ -17,6 +17,7 @@ socket.on('disconnect',()=>{
 
 socket.on('ultimos4-ticket',tickets => {
     const [t1,t2,t3,t4] = tickets
+    new Audio('./audio/new-ticket.mp3').play()
     lblTicket1.innerText = t1 ? ('Ticket ' + t1.numero) : ''
     lblEscritorio1.innerText = t1 ? ('E' + t1.escritorio.slice(1)) : ''
     lblTicket2.innerText = t2 ? ('Ticket ' + t2.numero) : ''
